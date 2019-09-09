@@ -26,10 +26,12 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        matview.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+        matview.h
 
 FORMS += \
         mainwindow.ui
