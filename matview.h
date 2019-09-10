@@ -21,7 +21,7 @@ signals:
 public slots:
 
 private:
-    Mat src;
+    //Mat src;
 };
 
 #endif // MATVIEW_H
