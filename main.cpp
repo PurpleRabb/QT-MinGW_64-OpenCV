@@ -55,31 +55,42 @@ int main(int argc, char *argv[])
 //-------图像的裁剪End-----------
 
     //-----灰度图转换Start---------
-    Mat src = imread("1.jpg");
-    Mat dst;
+//    Mat src = imread("1.jpg");
+//    Mat dst;
 
-    printMs(nullptr);
-    cvtColor(src,dst,COLOR_BGR2GRAY);
-    printMs("cvtColor");
+//    printMs(nullptr);
+//    cvtColor(src,dst,COLOR_BGR2GRAY);
+//    printMs("cvtColor");
 
-    printMs(nullptr);
-    cvtColor(src,dst,COLOR_BGR2GRAY);
-    printMs("cvtColor2");
+//    printMs(nullptr);
+//    cvtColor(src,dst,COLOR_BGR2GRAY);
+//    printMs("cvtColor2");
 
-    namedWindow("gray");
-    imshow("gray",dst);
+//    namedWindow("gray");
+//    imshow("gray",dst);
 
-    Mat src2 = imread("1.jpg");
-    Mat gray;
+//    Mat src2 = imread("1.jpg");
+//    Mat gray;
 
-    printMs(nullptr);
-    RGB2GRAY(src2,gray);
-    printMs("RGB2GRAY");
+//    printMs(nullptr);
+//    RGB2GRAY(src2,gray);
+//    printMs("RGB2GRAY");
 
-    namedWindow("mygray");
-    imshow("mygray",gray);
-    waitKey(0);
+//    namedWindow("mygray");
+//    imshow("mygray",gray);
+//    waitKey(0);
     //-----灰度图转换End-----------
+
+    //-----图像二值化（针对灰度图）Start------
+    Mat src = imread("1.jpg");
+    Mat gray;
+    Mat bin;
+    cvtColor(src,gray,COLOR_BGR2GRAY);
+    cv::threshold(gray,bin,100,255,THRESH_BINARY);//反二值化THRESH_BINARY_INV
+    namedWindow("binay");
+    imshow("binay",bin);
+    waitKey(0);
+    //-----图像二值化（针对灰度图）End--------
     return 0;
 }
 
