@@ -34,6 +34,27 @@ void RGB2GRAY(Mat &src,Mat &gray)
     }
 }
 
+void myresize(Mat &src,Mat &dst, Size st)
+{
+    dst.create(st,src.type());
+    float fx = (float)src.cols/dst.cols;
+    float fy = (float)src.rows/dst.rows;
+    int sx,sy = 0;
+
+    for (int x = 0; x < dst.cols; x++)
+    {
+        sx = fx*x + 0.5; //加0.5是为了四舍五入
+        sx >= src.cols ? sx = src.cols-1: sx;
+        for (int y=0; y < dst.rows; y++)
+        {
+            sy = fy*y + 0.5;
+            //qDebug() << x << y ;
+            sy >= src.rows ? sy = src.rows-1: sy;
+            dst.at<Vec3b>(y,x) = src.at<Vec3b>(sy,sx);
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
 //    QApplication a(argc, argv);
@@ -82,15 +103,40 @@ int main(int argc, char *argv[])
     //-----灰度图转换End-----------
 
     //-----图像二值化（针对灰度图）Start------
-    Mat src = imread("1.jpg");
-    Mat gray;
-    Mat bin;
-    cvtColor(src,gray,COLOR_BGR2GRAY);
-    cv::threshold(gray,bin,100,255,THRESH_BINARY);//反二值化THRESH_BINARY_INV
-    namedWindow("binay");
-    imshow("binay",bin);
-    waitKey(0);
+//    Mat src = imread("1.jpg");
+//    Mat gray;
+//    Mat bin;
+//    cvtColor(src,gray,COLOR_BGR2GRAY);
+//    cv::threshold(gray,bin,100,255,THRESH_BINARY);//反二值化THRESH_BINARY_INV
+//    namedWindow("binay");
+//    imshow("binay",bin);
+//    waitKey(0);
     //-----图像二值化（针对灰度图）End--------
+
+    //-------图像缩放Start------------
+//    Mat src = imread("1.jpg");
+//    Mat dst;
+//    Size st(3200,1800);
+//    //myresize(src,dst,st);//自行实现的近邻算法
+//    resize(src,dst,st,0,0,INTER_NEAREST);//近邻算法
+//    resize(src,dst,st,0,0,INTER_LINEAR);//线性插值算法
+//    namedWindow("dst");
+//    imshow("dst",dst);
+//    waitKey(0);
+    //-------图像缩放End--------------
+
+    //高斯金字塔和拉普拉斯金字塔
+    Mat src = imread("1.jpg");
+    Mat gsrc;
+    pyrDown(src,gsrc);//高斯金字塔，下采样
+    namedWindow("gsrc");
+    imshow("gsrc",gsrc);
+
+    Mat usrc;
+    pyrUp(src,usrc);//拉普拉斯金字塔，上采样
+    namedWindow("usrc");
+    imshow("usrc",usrc);
+    waitKey(0);
     return 0;
 }
 
