@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
 //    Mat _roi = src(roi);
 //    namedWindow("roi");
 //    imshow("roi",_roi);
-//    waitKey(0);
 //-------图像的裁剪End-----------
 
     //-----灰度图转换Start---------
@@ -99,7 +98,6 @@ int main(int argc, char *argv[])
 
 //    namedWindow("mygray");
 //    imshow("mygray",gray);
-//    waitKey(0);
     //-----灰度图转换End-----------
 
     //-----图像二值化（针对灰度图）Start------
@@ -110,7 +108,6 @@ int main(int argc, char *argv[])
 //    cv::threshold(gray,bin,100,255,THRESH_BINARY);//反二值化THRESH_BINARY_INV
 //    namedWindow("binay");
 //    imshow("binay",bin);
-//    waitKey(0);
     //-----图像二值化（针对灰度图）End--------
 
     //-------图像缩放Start------------
@@ -122,20 +119,41 @@ int main(int argc, char *argv[])
 //    resize(src,dst,st,0,0,INTER_LINEAR);//线性插值算法
 //    namedWindow("dst");
 //    imshow("dst",dst);
-//    waitKey(0);
     //-------图像缩放End--------------
 
     //高斯金字塔和拉普拉斯金字塔
-    Mat src = imread("1.jpg");
-    Mat gsrc;
-    pyrDown(src,gsrc);//高斯金字塔，下采样
-    namedWindow("gsrc");
-    imshow("gsrc",gsrc);
+//    Mat src = imread("1.jpg");
+//    Mat gsrc;
+//    pyrDown(src,gsrc);//高斯金字塔，下采样
+//    namedWindow("gsrc");
+//    imshow("gsrc",gsrc);
 
-    Mat usrc;
-    pyrUp(src,usrc);//拉普拉斯金字塔，上采样
-    namedWindow("usrc");
-    imshow("usrc",usrc);
+//    Mat usrc;
+//    pyrUp(src,usrc);//拉普拉斯金字塔，上采样
+//    namedWindow("usrc");
+//    imshow("usrc",usrc);
+
+    //--------图像的混合，旋转，镜像Start--------
+    Mat red;
+    Mat src = imread("1.jpg");
+    red.create(src.rows,src.cols,src.type());
+    Mat dst;
+    for(int i=0;i<red.rows;i++)
+    {
+        for(int j=0;j<red.cols;j++)
+        {
+            Vec3b &bgr = red.at<Vec3b>(i,j);
+            bgr[0] = 0;
+            bgr[1] = 0;
+            bgr[2] = 255;
+        }
+    }
+    //addWeighted(src,0.5,red,0,0,dst);//混合
+    //rotate(src,dst,1);旋转
+    flip(src,dst,1);
+    namedWindow("dst");
+    imshow("dst",dst);
+    //--------图像的混合，旋转，镜像End----------
     waitKey(0);
     return 0;
 }
