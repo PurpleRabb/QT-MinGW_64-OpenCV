@@ -134,26 +134,59 @@ int main(int argc, char *argv[])
 //    imshow("usrc",usrc);
 
     //--------图像的混合，旋转，镜像Start--------
-    Mat red;
-    Mat src = imread("1.jpg");
-    red.create(src.rows,src.cols,src.type());
-    Mat dst;
-    for(int i=0;i<red.rows;i++)
-    {
-        for(int j=0;j<red.cols;j++)
-        {
-            Vec3b &bgr = red.at<Vec3b>(i,j);
-            bgr[0] = 0;
-            bgr[1] = 0;
-            bgr[2] = 255;
-        }
-    }
-    //addWeighted(src,0.5,red,0,0,dst);//混合
-    //rotate(src,dst,1);旋转
-    flip(src,dst,1);
-    namedWindow("dst");
-    imshow("dst",dst);
+//    Mat red;
+//    Mat src = imread("1.jpg");
+//    red.create(src.rows,src.cols,src.type());
+//    Mat dst;
+//    for(int i=0;i<red.rows;i++)
+//    {
+//        for(int j=0;j<red.cols;j++)
+//        {
+//            Vec3b &bgr = red.at<Vec3b>(i,j);
+//            bgr[0] = 0;
+//            bgr[1] = 0;
+//            bgr[2] = 255;
+//        }
+//    }
+//    //addWeighted(src,0.5,red,0,0,dst);//混合
+//    //rotate(src,dst,1);旋转
+//    flip(src,dst,1);
+//    namedWindow("dst");
+//    imshow("dst",dst);
     //--------图像的混合，旋转，镜像End----------
+
+    //--------图像拼接Start-------------
+    //以高度小的为准，另一张做等比例缩放
+    Mat src1 = imread("1.jpg");
+    Mat src2 = imread("2.jpg");
+
+    int height1 = src1.rows;
+    int height2 = src2.rows;
+    int width1 = src1.cols;
+    int width2 = src2.cols;
+    int height = src1.rows;
+    if(height1 < height2)
+    {
+        height = src1.rows;
+        width2 = height*((float)src2.cols/(float)src2.rows);
+        resize(src2,src2,Size(width2,height));
+    }
+    if(height1 > height2)
+    {
+        height = src2.rows;
+        width1 = height*((float)src1.cols/(float)src1.rows);
+        resize(src1,src1,Size(width1,height));
+    }
+    Mat des;
+    des.create(height,width1+width2,src1.type());
+    Mat r1 = des(Rect(0,0,width1,height));
+    Mat r2 = des(Rect(width1,0,width2,height));
+    src1.copyTo(r1);
+    src2.copyTo(r2);
+    namedWindow("dst");
+    qDebug() << des.rows << des.cols;
+    imshow("dst",des);
+    //--------图像拼接End---------------
     waitKey(0);
     return 0;
 }
