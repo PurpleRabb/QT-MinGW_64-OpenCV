@@ -55,7 +55,7 @@ void myresize(Mat &src,Mat &dst, Size st)
     }
 }
 
-int main(int argc, char *argv[])
+int main0(int argc, char *argv[])
 {
 //    QApplication a(argc, argv);
 //    MainWindow w;

@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
+        main_copy.cpp \
         mainwindow.cpp \
         matview.cpp
 
